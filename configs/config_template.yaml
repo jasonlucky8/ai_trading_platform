@@ -1,0 +1,146 @@
+# AI Trading Platform 配置文件
+
+# 系统配置
+system:
+  # 日志配置
+  logging:
+    level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    file: "logs/trading.log"
+    max_size_mb: 10
+    backup_count: 5
+  
+  # 数据存储配置
+  storage:
+    # 市场数据存储
+    market_data:
+      type: "csv"  # csv, sqlite, mongodb, influxdb
+      path: "data/market"
+      # 数据库连接参数 (仅当type不是csv时使用)
+      database_url: ""
+      database_name: ""
+    
+    # 交易数据存储
+    trade_data:
+      type: "sqlite"  # csv, sqlite, mongodb
+      path: "data/trades"
+      database_url: "sqlite:///data/trades/trades.db"
+  
+  # Web服务配置
+  web_server:
+    host: "0.0.0.0"
+    port: 8000
+    enable_cors: true
+    cors_origins: ["*"]
+    jwt_secret: "CHANGE_THIS_TO_A_RANDOM_SECRET_KEY"
+    jwt_expire_minutes: 60
+
+# 交易所配置
+exchanges:
+  # 可添加多个交易所
+  binance:
+    enabled: true
+    api_key: ""  # 在实际配置中填入
+    api_secret: ""  # 在实际配置中填入
+    testnet: true  # 使用测试网络
+    timeout: 30000  # API超时时间(毫秒)
+    rate_limit: true  # 启用API请求速率限制
+  
+  coinbase:
+    enabled: false
+    api_key: ""
+    api_secret: ""
+    passphrase: ""
+    testnet: true
+    timeout: 30000
+    rate_limit: true
+  
+  # 可添加更多交易所...
+
+# 交易参数
+trading:
+  # 全局风险管理
+  risk_management:
+    max_position_size_percent: 5.0  # 单一仓位最大占总资金百分比
+    max_total_position_percent: 80.0  # 所有仓位最大占总资金百分比
+    stop_loss_percent: 2.0  # 止损百分比
+    take_profit_percent: 5.0  # 止盈百分比
+    max_daily_drawdown_percent: 5.0  # 每日最大回撤百分比限制
+    max_open_orders: 10  # 最大同时开放订单数
+  
+  # 回测设置
+  backtest:
+    initial_capital: 10000  # 初始资金
+    trading_fee_percent: 0.1  # 交易费率百分比
+    slippage_percent: 0.05  # 滑点百分比
+    start_date: "2022-01-01"  # 回测开始日期
+    end_date: "2022-12-31"  # 回测结束日期
+
+# 模型配置
+models:
+  # LSTM模型配置
+  lstm:
+    layers: [64, 32]  # 隐藏层单元数
+    dropout: 0.2  # Dropout率
+    epochs: 100  # 训练轮数
+    batch_size: 32  # 批次大小
+    validation_split: 0.2  # 验证集比例
+    learning_rate: 0.001  # 学习率
+    optimizer: "adam"  # 优化器
+    loss: "mse"  # 损失函数
+  
+  # GRU模型配置
+  gru:
+    layers: [64, 32]
+    dropout: 0.2
+    epochs: 100
+    batch_size: 32
+    validation_split: 0.2
+    learning_rate: 0.001
+    optimizer: "adam"
+    loss: "mse"
+  
+  # Attention模型配置
+  attention:
+    layers: [64, 32]
+    heads: 4  # 注意力头数
+    dropout: 0.2
+    epochs: 100
+    batch_size: 32
+    validation_split: 0.2
+    learning_rate: 0.001
+    optimizer: "adam"
+    loss: "mse"
+
+# 策略配置
+strategies:
+  # 移动平均策略配置
+  moving_average:
+    short_window: 10  # 短期窗口
+    long_window: 50  # 长期窗口
+    signal_threshold: 0.0  # 信号阈值
+  
+  # 机器学习策略配置
+  ml_strategy:
+    model_type: "lstm"  # 使用的模型类型: lstm, gru, attention
+    prediction_threshold: 0.5  # 预测阈值
+    window_size: 24  # 输入窗口大小
+    features: ["close", "volume", "rsi", "macd", "bollinger"]  # 使用的特征
+
+# 交易品种配置
+instruments:
+  # 加密货币
+  crypto:
+    - symbol: "BTC/USDT"
+      exchange: "binance"
+      timeframe: "1h"
+      enabled: true
+      strategy: "ml_strategy"
+    
+    - symbol: "ETH/USDT"
+      exchange: "binance"
+      timeframe: "1h"
+      enabled: true
+      strategy: "moving_average"
+  
+  # 可添加更多交易品种类别，如股票、外汇等... 
