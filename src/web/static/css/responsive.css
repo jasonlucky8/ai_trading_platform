@@ -1,0 +1,53 @@
+/* ========== 响应式样式 ========== */
+@media (max-width: 1200px) {
+    .main-content {
+        flex-direction: column;
+    }
+    .right-panel {
+        max-width: 100vw;
+        width: 100vw;
+        min-width: 0;
+        border-left: none;
+        box-shadow: none;
+    }
+    .vertical-drag-bar {
+        display: none;
+    }
+}
+@media (max-width: 900px) {
+    .main-content {
+        flex-direction: column;
+    }
+    .right-panel {
+        display: none;
+    }
+    .vertical-drag-bar {
+        display: none;
+    }
+}
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 0 8px;
+    }
+    .navbar-left, .navbar-right {
+        gap: 8px;
+    }
+    .main-content {
+        flex-direction: column;
+        padding: 0;
+    }
+    .left-panel, .right-panel {
+        min-width: 0;
+        width: 100vw;
+        box-shadow: none;
+    }
+    .horizontal-drag-bar, .vertical-drag-bar {
+        display: none;
+    }
+}
+@media (max-width: 576px) {
+    /* 复制原 style.css 中576px相关响应式样式 */
+}
+/* 其他响应式相关样式 */ 

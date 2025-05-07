@@ -14,17 +14,27 @@ system:
   storage:
     # 市场数据存储
     market_data:
-      type: "csv"  # csv, sqlite, mongodb, influxdb
-      path: "data/market"
-      # 数据库连接参数 (仅当type不是csv时使用)
-      database_url: ""
-      database_name: ""
+      type: influxdb
+      host: localhost
+      port: 8086
+      username: admin
+      password: admin123
+      database: market_data
+      ssl: false
+      path: data/market
+      database_url: sqlite:///data/market/market_data.db
     
     # 交易数据存储
     trade_data:
-      type: "sqlite"  # csv, sqlite, mongodb
-      path: "data/trades"
-      database_url: "sqlite:///data/trades/trades.db"
+      type: mongodb
+      host: localhost
+      port: 27017
+      username: admin
+      password: admin123
+      database: trading_platform
+      collection_prefix: ""
+      path: data/trades
+      database_url: sqlite:///data/trades/trades.db
   
   # Web服务配置
   web_server:

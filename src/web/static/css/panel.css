@@ -1,0 +1,659 @@
+/* panel.css - 内容区块、卡片、表格等样式 */
+.chart-placeholder,
+.function-placeholder,
+.info-panel {
+    width: 100%;
+    min-width: 0;
+    min-height: 80px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px var(--color-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    margin: 16px 0;
+}
+/* 右侧币种信息栏 */
+.coin-header {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr auto;
+    padding: 12px 18px 8px 18px;
+    background: transparent;
+    border-bottom: none;
+    box-sizing: border-box;
+    row-gap: 2px;
+}
+.coin-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.coin-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+.coin-icon-mini {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+    margin-right: 4px;
+}
+.coin-pair {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+}
+.coin-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+    justify-self: end;
+}
+.coin-header-row2-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: end;
+}
+.coin-unit {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    margin-left: 2px;
+}
+.coin-change {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 1px 10px;
+    border-radius: 10px;
+    margin-left: 4px;
+}
+.coin-change.up {
+    background: #e6f9f0;
+    color: #16c784;
+}
+.coin-change.down {
+    background: #fff0f0;
+    color: #ea3943;
+}
+.coin-info-tabs {
+    height: 38px;
+    min-height: 0;
+    max-height: 38px;
+    overflow-y: hidden;
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+}
+.tab-group {
+    height: 38px;
+    min-height: 0;
+    max-height: 38px;
+    overflow-y: hidden;
+    display: flex;
+    gap: 2px;
+    padding: 0 16px 0 16px;
+    border-bottom: 1.5px solid var(--color-border);
+    background: none;
+}
+.tab-btn {
+    height: 36px;
+    line-height: 36px;
+    padding-top: 0;
+    padding-bottom: 0;
+    box-sizing: border-box;
+    padding: 0 18px;
+    background: none;
+    color: var(--color-text-secondary);
+    border: none;
+    border-radius: 0;
+    font-size: 0.97rem;
+    position: relative;
+    transition: color 0.2s;
+    cursor: pointer;
+    font-weight: 500;
+    outline: none;
+}
+.tab-btn.active, .tab-btn:hover {
+    color: var(--color-primary);
+}
+.tab-btn.active::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: -2px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--color-primary);
+}
+.coin-info-content, .tab-content {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    padding: 0 0 8px 0;
+    overflow-y: auto;
+    max-height: 100%;
+    box-sizing: border-box;
+}
+.tab-panel {
+    display: none;
+    width: 100%;
+}
+.tab-panel.active {
+    display: block;
+}
+/* 表格、卡片等可扩展样式 */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+th, td {
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    text-align: left;
+    font-size: 0.98rem;
+}
+th {
+    background: #f1f5fa;
+    color: var(--color-text-secondary);
+}
+.card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px var(--color-shadow);
+    padding: 16px;
+    margin: 12px 0;
+}
+/* 信息卡片 */
+.info-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px 0 rgba(31, 56, 88, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    margin: 14px 0 8px 0;
+    padding: 10px 18px;
+    font-weight: 500;
+    border: 1px solid var(--color-border);
+}
+.market-card { color: var(--color-primary); background: #f6f9ff; }
+.depth-card { color: #e67e22; background: #fff8f1; }
+.news-card { color: #2563eb; background: #f5f8ff; }
+/* 表格 */
+.market-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin: 8px 0 0 0;
+    font-size: 0.96rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px 0 rgba(31,56,88,0.04);
+}
+.market-table th, .market-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+}
+.market-table th {
+    background: #f6f9ff;
+    color: var(--color-primary);
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-primary);
+}
+.market-table tr:last-child td {
+    border-bottom: none;
+}
+.market-table td {
+    color: var(--color-text);
+}
+.simple-coin-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 12px 18px 8px 18px;
+    background: transparent;
+    border-bottom: none;
+    box-sizing: border-box;
+    min-height: 40px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+.simple-coin-header .coin-pair {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+}
+.simple-coin-header .coin-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+}
+.simple-coin-header .coin-change {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 1px 10px;
+    border-radius: 10px;
+    margin-left: 4px;
+}
+.pro-coin-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 14px 18px 10px 18px;
+    background: transparent;
+    border-bottom: none;
+    box-sizing: border-box;
+    min-height: 40px;
+}
+.coin-header-mainline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.coin-icon-main {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+.coin-pair-main {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+}
+.coin-header-subline {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 2px;
+}
+.coin-price-main {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+}
+.coin-unit-main {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    margin-left: 2px;
+}
+.coin-change-main {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 1px 10px;
+    border-radius: 10px;
+    margin-left: 4px;
+}
+.coin-change-main.up {
+    color: #16c784;
+    background: #e6f9f0;
+}
+.coin-change-main.down {
+    color: #ea3943;
+    background: #fff0f0;
+}
+/* 左侧功能区选项卡样式 */
+.function-tabs {
+    height: 38px;
+    display: flex;
+    gap: 2px;
+    padding: 0 8px 0 8px;
+    border-bottom: 1.5px solid var(--color-border);
+    background: #f8fafc;
+    margin-bottom: 8px;
+    border-radius: 8px 8px 0 0;
+}
+.function-tabs .tab-btn {
+    height: 36px;
+    line-height: 36px;
+    padding: 0 18px;
+    background: none;
+    color: var(--color-text-secondary);
+    border: none;
+    border-radius: 8px 8px 0 0;
+    font-size: 1rem;
+    position: relative;
+    transition: color 0.2s, background 0.2s;
+    cursor: pointer;
+    font-weight: 500;
+    outline: none;
+}
+.function-tabs .tab-btn.active, .function-tabs .tab-btn:hover {
+    color: var(--color-primary);
+    background: #fff;
+}
+.function-tabs .tab-btn.active::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: -2px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--color-primary);
+}
+.function-tab-content {
+    width: 100%;
+    min-width: 0;
+    padding: 0 0 8px 0;
+    box-sizing: border-box;
+}
+.function-tab-content .tab-panel {
+    display: none;
+    width: 100%;
+}
+.function-tab-content .tab-panel.active {
+    display: block;
+}
+.pair-selector-container {
+    display: inline-block;
+    margin-left: 18px;
+    vertical-align: middle;
+}
+.pair-selector {
+    height: 32px;
+    min-width: 110px;
+    padding: 0 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--color-text);
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s;
+    box-shadow: 0 1px 2px rgba(31,56,88,0.04);
+}
+.pair-selector:focus {
+    border-color: var(--color-primary);
+}
+.pair-modal-btn {
+    height: 32px;
+    min-width: 110px;
+    padding: 0 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    background: #fff;
+    color: var(--color-text);
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    transition: border 0.2s, background 0.2s;
+}
+.pair-modal-btn:focus, .pair-modal-btn:hover {
+    border-color: var(--color-primary);
+    background: #f6f9ff;
+}
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.18);
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background-color: #fff;
+    margin: 10vh auto;
+    padding: 0;
+    border-radius: 4px;
+    width: 30%;
+    max-width: 500px;
+    min-width: 300px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    animation: modalFadeIn 0.2s ease-out;
+}
+/* 添加不同宽度的模态框内容类 */
+.modal-content-narrow {
+    width: 15%;
+    max-width: 260px;
+    min-width: 220px;
+}
+.modal-content-medium {
+    width: 30%;
+    max-width: 500px;
+    min-width: 300px;
+}
+.modal-content-wide {
+    width: 40%;
+    max-width: 700px;
+    min-width: 400px;
+}
+.pair-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px 0 24px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+.pair-modal-title {
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #222;
+    letter-spacing: 0.5px;
+}
+.close {
+    position: static;
+    font-size: 1.7rem;
+    color: #888;
+    cursor: pointer;
+    margin-left: 18px;
+    margin-right: -8px;
+    transition: color 0.18s;
+}
+.close:hover { color: #222; }
+.pair-search-bar {
+    width: 100%;
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 4px 24px;
+    border-top: 1.5px solid #e5e7eb;
+    border-bottom: 1.5px solid #e5e7eb;
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 1px 2px rgba(31,56,88,0.04);
+    box-sizing: border-box;
+    background: #f4f6fa;
+    border-radius: 0;
+}
+.pair-search-bar .search-icon {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    color: #888;
+    margin-right: 8px;
+    font-size: 1.08rem;
+}
+.pair-search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.98rem;
+    width: 100%;
+    color: #222;
+    padding: 0;
+    height: 28px;
+    line-height: 28px;
+}
+.pair-search-bar .clear-btn {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+    padding: 0;
+    opacity: 0.85;
+}
+.pair-search-bar .clear-btn:hover {
+    background: #f1f3f8;
+    opacity: 1;
+}
+.pair-search-bar .clear-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #888;
+    pointer-events: none;
+}
+.pair-list-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid #f0f0f0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+.pair-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.pair-list-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 24px 8px 24px;
+    cursor: pointer;
+    border-bottom: 1px solid #f4f6fa;
+    transition: background 0.13s;
+    font-size: 1.00rem;
+    min-height: 34px;
+    position: relative;
+}
+.pair-list-item:last-child {
+    border-bottom: none;
+}
+.pair-list-item:hover,
+.pair-list-item.selected {
+    background: #e6f0ff;
+}
+.pair-list-item .pair-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #f3f3f3;
+    border: 1.5px solid #e5e7eb;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pair-list-item .pair-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+}
+.pair-list-item .pair-symbol {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 1.03rem;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+.pair-list-item .pair-market {
+    font-size: 0.93rem;
+    color: #888;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+.pair-list-item .pair-market-logo {
+    width: 18px;
+    height: 18px;
+    margin-left: 8px;
+    vertical-align: middle;
+    border-radius: 50%;
+    object-fit: contain;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+}
+.pair-list-item .pair-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 90px;
+    justify-content: flex-end;
+}
+.confirm-btn {
+    margin-top: 18px;
+    padding: 6px 28px;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.confirm-btn:hover {
+    background: #2563eb;
+}
+.pair-group-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 0 28px 8px 28px;
+    margin-bottom: 2px;
+}
+.pair-group-tab {
+    background: #f4f6fa;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 14px;
+    font-size: 0.98rem;
+    color: #666;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+}
+.pair-group-tab.active, .pair-group-tab:hover {
+    background: #e6f0ff;
+    color: var(--color-primary);
+} 

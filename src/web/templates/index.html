@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI量化交易平台</title>
+    <!-- 基础样式 -->
+    <link rel="stylesheet" href="/static/css/base.css">
+    <!-- 主布局样式 -->
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <!-- 顶部导航栏样式 -->
+    <link rel="stylesheet" href="/static/css/navbar.css">
+    <!-- 内容区块样式 -->
+    <link rel="stylesheet" href="/static/css/panel.css">
+    <!-- 响应式样式 -->
+    <link rel="stylesheet" href="/static/css/responsive.css">
+    <!-- 引入Remix Icon图标库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="navbar-left">
+            <div class="logo" data-i18n="平台名称">AIGO TradeView</div>
+            <button id="openPairModalBtn" class="pair-modal-btn">选择币对</button>
+            <!-- 币对选择模态框 -->
+            <div id="pairModal" class="modal" style="display:none;">
+                <div class="modal-content modal-content-wide">
+                    <div class="pair-modal-header">
+                        <div class="pair-modal-title">商品代码搜索</div>
+                        <span class="close" id="closePairModalBtn">&times;</span>
+                    </div>
+                    <div class="pair-search-bar">
+                        <span class="search-icon">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8.5" cy="8.5" r="6.5" stroke="#888" stroke-width="1.5"/><path d="M15 15L13 13" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </span>
+                        <input id="pairSearchInput" type="text" placeholder="搜索币对/市场/代码..." autocomplete="off" />
+                        <button class="clear-btn" id="pairSearchClearBtn" style="display:none;" tabindex="-1" aria-label="清空">
+                            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#f4f6fa"/><path d="M5.7 5.7l4.6 4.6M10.3 5.7l-4.6 4.6" stroke="#888" stroke-width="1.3" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                    <div id="pairListContainer" class="pair-list-container">
+                        <!-- 币对列表由JS动态渲染 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 时间周期选择按钮 -->
+            <button id="openTimeframeModalBtn" class="pair-modal-btn">1小时</button>
+            <!-- 时间周期选择模态框 -->
+            <div id="timeframeModal" class="modal" style="display:none;">
+                <div class="modal-content modal-content-narrow">
+                    <div class="pair-modal-header">
+                        <div class="pair-modal-title">选择时间周期</div>
+                        <span class="close" id="closeTimeframeModalBtn">&times;</span>
+                    </div>
+                    <div id="timeframeListContainer" class="pair-list-container">
+                        <!-- 时间周期列表由JS动态渲染 -->
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="business-menu">
+                <!-- <button class="nav-btn" data-i18n="行情">行情</button> -->
+            </nav>
+        </div>
+        <div class="navbar-right">
+            <button class="icon-btn" id="fullscreenBtn" title="全屏" data-i18n-title="全屏">
+                <i class="ri-fullscreen-line"></i>
+                </button>
+            <button class="icon-btn" id="langSwitchBtn" title="中/EN" data-i18n-title="中英文切换" data-lang="zh">
+                <i class="ri-translate-2"></i>
+                </button>
+            <button class="icon-btn" id="settingsBtn" title="设置" data-i18n-title="设置">
+                <i class="ri-settings-3-line"></i>
+                </button>
+            </div>
+        </header>
+        
+    <!-- 主内容区：左右分栏 -->
+        <main class="main-content">
+        <!-- 左侧：图表区+上下分栏 -->
+            <section class="left-panel" id="leftPanel">
+                <div class="chart-section">
+                <!-- 图表区内容（可插入K线图等） -->
+                <div id="chart" style="width:100%;height:100%;"></div>
+                </div>
+                <div class="function-section">
+                <!-- 功能区内容（下单、持仓、委托等） -->
+                <div class="tab-group function-tabs">
+                    <button class="tab-btn active" data-i18n="策略" data-tab="strategy">策略</button>
+                    <button class="tab-btn" data-i18n="回测" data-tab="backtest">回测</button>
+                    <button class="tab-btn" data-i18n="交易" data-tab="trade">交易</button>
+                </div>
+                <div class="tab-content function-tab-content">
+                    <div class="tab-panel function-panel-strategy active" data-tab-panel="strategy">
+                        <div class="function-placeholder" data-i18n="功能区">策略功能区</div>
+                    </div>
+                    <div class="tab-panel function-panel-backtest" data-tab-panel="backtest" style="display:none;">
+                        <div class="function-placeholder" data-i18n="功能区">回测功能区</div>
+                    </div>
+                    <div class="tab-panel function-panel-trade" data-tab-panel="trade" style="display:none;">
+                        <div class="function-placeholder" data-i18n="功能区">交易功能区</div>
+                    </div>
+                </div>
+                </div>
+            </section>
+        <!-- 右侧：币种信息栏 -->
+            <section class="right-panel" id="rightPanel">
+            <div class="coin-header info-header pro-coin-header">
+              <div class="coin-header-mainline">
+                <img src="/static/img/btc.svg" alt="BTC" class="coin-icon-main" />
+                <span class="coin-pair-main">BTCUSDT</span>
+                        </div>
+              <div class="coin-header-subline">
+                <span class="coin-price-main">67,000.00</span>
+                <span class="coin-unit-main">USDT</span>
+                <span class="coin-change-main up">+2.15%</span>
+                            </div>
+                        </div>
+            <div class="tab-group coin-info-tabs">
+                <button class="tab-btn active" data-i18n="行情" data-tab="market">行情</button>
+                <button class="tab-btn" data-i18n="深度" data-tab="depth">深度</button>
+                <button class="tab-btn" data-i18n="新闻" data-tab="news">新闻</button>
+                            </div>
+            <div class="tab-content coin-info-content">
+                <div class="tab-panel info-panel info-panel-market active" data-tab-panel="market">
+                    <div class="info-card market-card" data-i18n="信息面板">信息面板</div>
+                    <table class="market-table">
+                        <thead><tr><th>名称</th><th>价格</th><th>涨跌</th></tr></thead>
+                        <tbody><tr><td>BTC/USDT</td><td>43000</td><td>+2.1%</td></tr></tbody>
+                            </table>
+                </div>
+                <div class="tab-panel info-panel info-panel-depth" data-tab-panel="depth" style="display:none;">
+                    <div class="info-card depth-card">深度信息卡片</div>
+                </div>
+                <div class="tab-panel info-panel info-panel-news" data-tab-panel="news" style="display:none;">
+                    <div class="info-card news-card">新闻卡片</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 本地引入jQuery，必须在所有JS文件之前 -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/chart.js"></script>
+    <script src="/static/js/layout.js"></script>
+    <script src="/static/js/fullscreen.js"></script>
+    <script src="/static/js/i18n.js"></script>
+    <script src="/static/js/main.js"></script>
+    <!-- 引入LightweightCharts库 -->
+    <script src="https://unpkg.com/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+</body>
+</html>

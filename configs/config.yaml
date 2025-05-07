@@ -1,0 +1,224 @@
+# AI Trading Platform 配置文件
+
+# 系统配置
+system:
+  # 日志配置
+  logging:
+    level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    file: "logs/trading.log"
+    max_size_mb: 10
+    backup_count: 5
+  
+  # 数据存储配置
+  storage:
+    # 市场数据存储
+    market_data:
+      type: influxdb
+      host: localhost
+      port: 8086
+      username: admin
+      password: admin123
+      database: market_data
+      ssl: false
+      path: data/market
+      database_url: sqlite:///data/market/market_data.db
+    
+    # 交易数据存储
+    trade_data:
+      type: mongodb
+      host: localhost
+      port: 27017
+      username: admin
+      password: admin123
+      database: trading_platform
+      collection_prefix: ""
+      path: data/trades
+      database_url: sqlite:///data/trades/trades.db
+  
+  # Web服务配置
+  web_server:
+    host: "0.0.0.0"
+    port: 8501
+    debug: false
+
+# 交易所配置
+exchanges:
+  # 可添加多个交易所
+  binance:
+    enabled: false
+    api_key: ""  # 在实际配置中填入
+    api_secret: ""  # 在实际配置中填入
+    testnet: true  # 使用测试网络
+    timeout: 30000  # API超时时间(毫秒)
+    rate_limit: true  # 启用API请求速率限制
+  
+  coinbase:
+    enabled: false
+    api_key: ""
+    api_secret: ""
+    passphrase: ""
+    testnet: true
+    timeout: 30000
+    rate_limit: true
+  
+  # OKX交易所配置
+  okx:
+    enabled: true
+    # 请在OKX官网API管理页面创建API密钥: https://www.okx.com/account/my-api
+    # 创建API密钥时，请根据需要设置适当的权限（只读/交易）
+    api_key: "您的OKX API KEY"  # 请替换为您的实际API Key
+    api_secret: "您的OKX API SECRET"  # 请替换为您的实际Secret
+    passphrase: "您的OKX API密码"  # OKX需要API密码
+    testnet: false  # false表示使用真实交易环境，true表示使用测试网络(sandbox)
+    timeout: 30000
+    rate_limit: true
+  
+  # Bitget交易所配置
+  bitget:
+    enabled: true
+    # 请在Bitget官网API管理页面创建API密钥: https://www.bitget.com/account/apiManagement
+    # 创建API密钥时，请根据需要设置适当的权限（只读/交易）
+    api_key: "您的Bitget API KEY"  # 请替换为您的实际API Key
+    api_secret: "您的Bitget API SECRET"  # 请替换为您的实际Secret
+    passphrase: "您的Bitget API密码"  # Bitget也需要API密码
+    testnet: false  # false表示使用真实交易环境，true表示使用测试网络
+    timeout: 30000
+    rate_limit: true
+
+# 策略配置
+strategies:
+  # 移动平均线交叉策略
+  moving_average:
+    enabled: true
+    default_params:
+      short_window: 9    # 短期窗口大小
+      long_window: 21    # 长期窗口大小
+      signal_threshold: 0.0  # 信号阈值
+      ma_type: "ema"     # 移动平均线类型，可选值: "sma", "ema"
+    symbols:
+      - "BTC/USDT"
+      - "ETH/USDT"
+    timeframes:
+      - "1h"
+      - "4h"
+    risk_management:
+      max_position_size: 0.1  # 最大仓位占资金比例
+      stop_loss_pct: 0.02    # 止损百分比
+      take_profit_pct: 0.05  # 止盈百分比
+  
+  # RSI策略
+  rsi:
+    enabled: true
+    default_params:
+      rsi_period: 14       # RSI计算周期
+      overbought: 70       # 超买水平
+      oversold: 30         # 超卖水平
+      exit_overbought: 65  # 超买退出水平
+      exit_oversold: 35    # 超卖退出水平
+    symbols:
+      - "BTC/USDT"
+      - "ETH/USDT"
+    timeframes:
+      - "1h"
+      - "4h"
+    risk_management:
+      max_position_size: 0.1  # 最大仓位占资金比例
+      stop_loss_pct: 0.02    # 止损百分比
+      take_profit_pct: 0.04  # 止盈百分比
+
+# 回测配置
+backtest:
+  initial_capital: 10000   # 初始资金
+  fee_rate: 0.001         # 交易手续费率
+  slippage: 0.0005        # 滑点
+  data_source: "influxdb"  # 数据源
+  start_date: ""          # 回测开始日期，空表示使用全部可用数据
+  end_date: ""            # 回测结束日期，空表示使用全部可用数据
+
+# 交易执行配置
+trading:
+  enabled: false            # 是否启用自动交易
+  mode: "paper"            # 交易模式：paper(模拟交易), live(实盘交易)
+  risk_management:
+    max_open_trades: 3      # 最大同时持仓数量
+    max_open_trades_per_pair: 1  # 每个交易对最大同时持仓数量
+    max_daily_drawdown: 0.05    # 每日最大回撤，超过则停止交易
+    max_drawdown: 0.15         # 最大回撤，超过则停止交易
+  position_sizing:
+    default_position_size: 0.05  # 默认仓位大小（占总资金的比例）
+    risk_per_trade: 0.01        # 每笔交易风险（占总资金的比例）
+  order_types:
+    entry: "limit"           # 开仓订单类型: market, limit
+    exit: "market"           # 平仓订单类型: market, limit
+    emergency_exit: "market"  # 紧急平仓订单类型: market
+  intervals:
+    update_interval_seconds: 60  # 更新市场数据的间隔（秒）
+    check_signals_interval_seconds: 300  # 检查信号的间隔（秒）
+    status_report_interval_seconds: 3600  # 状态报告的间隔（秒）
+
+# 模型配置
+models:
+  # LSTM模型配置
+  lstm:
+    layers: [64, 32]  # 隐藏层单元数
+    dropout: 0.2  # Dropout率
+    epochs: 100  # 训练轮数
+    batch_size: 32  # 批次大小
+    validation_split: 0.2  # 验证集比例
+    learning_rate: 0.001  # 学习率
+    optimizer: "adam"  # 优化器
+    loss: "mse"  # 损失函数
+  
+  # GRU模型配置
+  gru:
+    layers: [64, 32]
+    dropout: 0.2
+    epochs: 100
+    batch_size: 32
+    validation_split: 0.2
+    learning_rate: 0.001
+    optimizer: "adam"
+    loss: "mse"
+  
+  # Attention模型配置
+  attention:
+    layers: [64, 32]
+    heads: 4  # 注意力头数
+    dropout: 0.2
+    epochs: 100
+    batch_size: 32
+    validation_split: 0.2
+    learning_rate: 0.001
+    optimizer: "adam"
+    loss: "mse"
+
+# 交易品种配置
+instruments:
+  # 加密货币
+  crypto:
+    - symbol: "BTC/USDT"
+      exchange: "okx"
+      timeframe: "1h"
+      enabled: true
+      strategy: "ml_strategy"
+    
+    - symbol: "ETH/USDT"
+      exchange: "okx"
+      timeframe: "1h"
+      enabled: true
+      strategy: "moving_average"
+    
+    - symbol: "BTC/USDT"
+      exchange: "bitget"
+      timeframe: "1h"
+      enabled: true
+      strategy: "moving_average"
+    
+    - symbol: "ETH/USDT"
+      exchange: "bitget"
+      timeframe: "4h"
+      enabled: true
+      strategy: "ml_strategy"
+  
+  # 可添加更多交易品种类别，如股票、外汇等... 

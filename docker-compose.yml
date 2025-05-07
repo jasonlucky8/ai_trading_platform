@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: ai_trading_platform
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - FLASK_APP=src/web/flask_app.py
+      - FLASK_ENV=production
+      - TZ=Asia/Shanghai
+    networks:
+      - app_network
+    
+  # 如果需要数据库，可以取消以下注释
+  # db:
+  #   image: mongo:latest
+  #   container_name: mongo_db
+  #   restart: always
+  #   volumes:
+  #     - mongo_data:/data/db
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=admin
+  #     - MONGO_INITDB_ROOT_PASSWORD=password
+  #   networks:
+  #     - app_network
+
+  # InfluxDB服务 - 用于存储时间序列市场数据
+  influxdb:
+    image: influxdb:1.8
+    container_name: trading_influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=market_data
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin123
+      - INFLUXDB_USER=trading
+      - INFLUXDB_USER_PASSWORD=trading123
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    networks:
+      - trading_net
+
+  # MongoDB服务 - 用于存储策略配置和模型参数
+  mongodb:
+    image: mongo:4.4
+    container_name: trading_mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - trading_net
+
+  # 可选：MongoDB Express Web界面 - 用于查看和管理MongoDB数据
+  mongo-express:
+    image: mongo-express
+    container_name: trading_mongo_express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin123
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    depends_on:
+      - mongodb
+    networks:
+      - trading_net
+
+  # 可选：Chronograf - InfluxDB的Web界面 - 用于查看和管理InfluxDB数据
+  chronograf:
+    image: chronograf:1.8
+    container_name: trading_chronograf
+    ports:
+      - "8888:8888"
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_USERNAME=admin
+      - INFLUXDB_PASSWORD=admin123
+    depends_on:
+      - influxdb
+    networks:
+      - trading_net
+
+networks:
+  app_network:
+    driver: bridge
+  trading_net:
+    driver: bridge
+
+volumes:
+  influxdb_data:
+  mongodb_data: 
