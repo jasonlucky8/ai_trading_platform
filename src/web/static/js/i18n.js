@@ -101,6 +101,27 @@ const translations = {
         '全屏': '全屏',
         '设置': '设置',
         '中英文切换': '中/EN',
+        
+        // 弹出框相关翻译
+        '选择币对': '选择币对',
+        '商品代码搜索': '商品代码搜索',
+        '搜索币对/市场/代码...': '搜索币对/市场/代码...',
+        '选择时间周期': '选择时间周期',
+        '分钟': '分钟',
+        '小时': '小时',
+        '天/周': '天/周',
+        '月': '月',
+        '5分钟': '5分钟',
+        '10分钟': '10分钟',
+        '15分钟': '15分钟',
+        '30分钟': '30分钟',
+        '45分钟': '45分钟',
+        '1小时': '1小时',
+        '2小时': '2小时',
+        '4小时': '4小时',
+        '1日': '1日',
+        '1周': '1周',
+        '1月': '1月',
     },
     'en-US': {
         // Page title
@@ -198,6 +219,27 @@ const translations = {
         '全屏': 'Fullscreen',
         '设置': 'Settings',
         '中英文切换': 'EN/中',
+        
+        // 弹出框相关翻译
+        '选择币对': 'Select Pair',
+        '商品代码搜索': 'Symbol Search',
+        '搜索币对/市场/代码...': 'Search pair/market/code...',
+        '选择时间周期': 'Select Timeframe',
+        '分钟': 'Minutes',
+        '小时': 'Hours',
+        '天/周': 'Day/Week',
+        '月': 'Month',
+        '5分钟': '5 Min',
+        '10分钟': '10 Min',
+        '15分钟': '15 Min',
+        '30分钟': '30 Min',
+        '45分钟': '45 Min',
+        '1小时': '1 Hour',
+        '2小时': '2 Hours',
+        '4小时': '4 Hours',
+        '1日': '1 Day',
+        '1周': '1 Week',
+        '1月': '1 Month',
     }
 };
 
@@ -293,54 +335,58 @@ function updatePageTexts() {
     document.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: currentLang } }));
 }
 
-// 初始化语言
-function initLanguage() {
+// 暴露到全局作用域，以便在其他JS文件中使用
+window.t = t;
+window.switchLanguage = switchLanguage;
+window.getCurrentLanguage = getCurrentLanguage;
+
+// 初始化i18n功能
+function initI18n() {
+    // 设置语言切换按钮点击事件
+    const langSwitchBtn = document.getElementById('langSwitchBtn');
+    if (langSwitchBtn) {
+        // 初始化语言图标状态
+        updateLangIcon();
+        
+        langSwitchBtn.addEventListener('click', function() {
+            // 切换语言 中文 <-> 英文
+            const newLang = currentLang === 'zh-CN' ? 'en-US' : 'zh-CN';
+            switchLanguage(newLang);
+            updateLangIcon();
+        });
+    }
+    
+    // 页面加载时应用当前语言设置
     updatePageTexts();
     
-    // 添加语言切换监听器 - 注释掉这部分，因为我们已经在jQuery ready中添加了事件监听器
-    /*
-    document.addEventListener('DOMContentLoaded', () => {
-        const langToggle = document.getElementById('languageToggle');
-        if (langToggle) {
-            langToggle.addEventListener('click', () => {
-                const newLang = currentLang === 'zh-CN' ? 'en-US' : 'zh-CN';
-                switchLanguage(newLang);
-            });
-        }
-    });
-    */
-}
-
-// 导出函数到全局作用域
-window.i18n = {
-    t,
-    switchLanguage,
-    getCurrentLanguage,
-    updatePageTexts,
-    initLanguage
-};
-
-// 自动初始化
-document.addEventListener('DOMContentLoaded', initLanguage);
-
-document.addEventListener('DOMContentLoaded', function() {
-    const btn = document.getElementById('langSwitchBtn');
-    const icon = btn ? btn.querySelector('.ri-translate-2') : null;
     function updateLangIcon() {
-        if (!icon) return;
-        if (currentLang === 'zh-CN' || currentLang === 'zh') {
-            icon.style.color = '';
-            icon.style.transform = 'rotate(0deg)';
+        if (!langSwitchBtn) return;
+        
+        // 获取图标元素
+        const icon = langSwitchBtn.querySelector('i');
+        
+        // 设置tooltip和数据属性
+        if (currentLang === 'zh-CN') {
+            langSwitchBtn.title = t('switch_to_english');
+            langSwitchBtn.setAttribute('data-lang', 'zh');
+            // 中文状态 - 恢复默认样式
+            if (icon) {
+                icon.style.color = ''; // 恢复默认颜色
+                icon.style.transform = 'rotate(0deg)'; // 恢复默认角度
+            }
+            langSwitchBtn.style.background = '';
         } else {
-            icon.style.color = '#2563eb'; // 英文时高亮蓝色
-            icon.style.transform = 'rotate(180deg)';
+            langSwitchBtn.title = t('switch_to_chinese');
+            langSwitchBtn.setAttribute('data-lang', 'en');
+            // 英文状态 - 添加特殊样式
+            if (icon) {
+                icon.style.color = '#2563eb'; // 突出显示蓝色
+                icon.style.transform = 'rotate(180deg)'; // 添加旋转效果
+            }
+            langSwitchBtn.style.background = 'rgba(37, 99, 235, 0.1)'; // 轻微背景色
         }
     }
-    updateLangIcon();
-    if (!btn) return;
-    btn.addEventListener('click', function() {
-        const newLang = (currentLang === 'zh-CN' || currentLang === 'zh') ? 'en-US' : 'zh-CN';
-        switchLanguage(newLang);
-        updateLangIcon();
-    });
-}); 
+}
+
+// 导出模块
+window.initI18n = initI18n; 

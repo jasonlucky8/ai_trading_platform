@@ -22,19 +22,19 @@
     <header class="navbar">
         <div class="navbar-left">
             <div class="logo" data-i18n="平台名称">AIGO TradeView</div>
-            <button id="openPairModalBtn" class="pair-modal-btn">选择币对</button>
+            <button id="openPairModalBtn" class="pair-modal-btn" data-i18n="选择币对">选择币对</button>
             <!-- 币对选择模态框 -->
             <div id="pairModal" class="modal" style="display:none;">
                 <div class="modal-content modal-content-wide">
                     <div class="pair-modal-header">
-                        <div class="pair-modal-title">商品代码搜索</div>
+                        <div class="pair-modal-title" data-i18n="商品代码搜索">商品代码搜索</div>
                         <span class="close" id="closePairModalBtn">&times;</span>
                     </div>
                     <div class="pair-search-bar">
                         <span class="search-icon">
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8.5" cy="8.5" r="6.5" stroke="#888" stroke-width="1.5"/><path d="M15 15L13 13" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg>
                         </span>
-                        <input id="pairSearchInput" type="text" placeholder="搜索币对/市场/代码..." autocomplete="off" />
+                        <input id="pairSearchInput" type="text" data-i18n="搜索币对/市场/代码..." placeholder="搜索币对/市场/代码..." autocomplete="off" />
                         <button class="clear-btn" id="pairSearchClearBtn" style="display:none;" tabindex="-1" aria-label="清空">
                             <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#f4f6fa"/><path d="M5.7 5.7l4.6 4.6M10.3 5.7l-4.6 4.6" stroke="#888" stroke-width="1.3" stroke-linecap="round"/></svg>
                         </button>
@@ -46,12 +46,12 @@
             </div>
             
             <!-- 时间周期选择按钮 -->
-            <button id="openTimeframeModalBtn" class="pair-modal-btn">1小时</button>
+            <button id="openTimeframeModalBtn" class="pair-modal-btn" data-i18n="1小时">1小时</button>
             <!-- 时间周期选择模态框 -->
             <div id="timeframeModal" class="modal" style="display:none;">
                 <div class="modal-content modal-content-narrow">
                     <div class="pair-modal-header">
-                        <div class="pair-modal-title">选择时间周期</div>
+                        <div class="pair-modal-title" data-i18n="选择时间周期">选择时间周期</div>
                         <span class="close" id="closeTimeframeModalBtn">&times;</span>
                     </div>
                     <div id="timeframeListContainer" class="pair-list-container">

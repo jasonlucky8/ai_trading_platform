@@ -324,7 +324,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function setTimeframeBtnText(timeframe) {
         if (openTimeframeModalBtn) {
             const item = timeframeListData.find(item => item.value === timeframe);
-            openTimeframeModalBtn.textContent = item ? item.text : timeframe;
+            // 使用翻译函数获取翻译文本
+            if (window.t && item) {
+                openTimeframeModalBtn.textContent = window.t(item.text);
+            } else {
+                openTimeframeModalBtn.textContent = item ? item.text : timeframe;
+            }
         }
         currentTimeframe = timeframe;
     }
@@ -344,17 +349,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let html = '<div class="timeframe-groups">';
         
+        // 使用翻译函数获取分组标题
+        const hasTranslateFunc = typeof window.t === 'function';
+        
         // 分钟组
         if (groups.minute.length > 0) {
             html += '<div class="timeframe-group">';
-            html += '<div class="timeframe-group-header">分钟</div>';
+            const minutesTitle = hasTranslateFunc ? window.t('分钟') : '分钟';
+            html += `<div class="timeframe-group-header">${minutesTitle}</div>`;
             html += '<ul class="pair-list timeframe-list">';
             groups.minute.forEach(item => {
                 const isActive = item.value === currentTimeframe ? 'selected' : '';
+                const itemText = hasTranslateFunc ? window.t(item.text) : item.text;
                 html += `<li class="pair-list-item timeframe-item ${isActive}" data-timeframe="${item.value}">
                     <span class="timeframe-icon">${item.icon}</span>
                     <div class="pair-info">
-                        <span class="timeframe-text">${item.text}</span>
+                        <span class="timeframe-text">${itemText}</span>
                     </div>
                 </li>`;
             });
@@ -365,14 +375,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // 小时组
         if (groups.hour.length > 0) {
             html += '<div class="timeframe-group">';
-            html += '<div class="timeframe-group-header">小时</div>';
+            const hoursTitle = hasTranslateFunc ? window.t('小时') : '小时';
+            html += `<div class="timeframe-group-header">${hoursTitle}</div>`;
             html += '<ul class="pair-list timeframe-list">';
             groups.hour.forEach(item => {
                 const isActive = item.value === currentTimeframe ? 'selected' : '';
+                const itemText = hasTranslateFunc ? window.t(item.text) : item.text;
                 html += `<li class="pair-list-item timeframe-item ${isActive}" data-timeframe="${item.value}">
                     <span class="timeframe-icon">${item.icon}</span>
                     <div class="pair-info">
-                        <span class="timeframe-text">${item.text}</span>
+                        <span class="timeframe-text">${itemText}</span>
                     </div>
                 </li>`;
             });
@@ -383,14 +395,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // 天和周组
         if (groups.day.length > 0 || groups.week.length > 0) {
             html += '<div class="timeframe-group">';
-            html += '<div class="timeframe-group-header">天/周</div>';
+            const dayWeekTitle = hasTranslateFunc ? window.t('天/周') : '天/周';
+            html += `<div class="timeframe-group-header">${dayWeekTitle}</div>`;
             html += '<ul class="pair-list timeframe-list">';
             [...groups.day, ...groups.week].forEach(item => {
                 const isActive = item.value === currentTimeframe ? 'selected' : '';
+                const itemText = hasTranslateFunc ? window.t(item.text) : item.text;
                 html += `<li class="pair-list-item timeframe-item ${isActive}" data-timeframe="${item.value}">
                     <span class="timeframe-icon">${item.icon}</span>
                     <div class="pair-info">
-                        <span class="timeframe-text">${item.text}</span>
+                        <span class="timeframe-text">${itemText}</span>
                     </div>
                 </li>`;
             });
@@ -401,14 +415,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // 月组
         if (groups.month.length > 0) {
             html += '<div class="timeframe-group">';
-            html += '<div class="timeframe-group-header">月</div>';
+            const monthTitle = hasTranslateFunc ? window.t('月') : '月';
+            html += `<div class="timeframe-group-header">${monthTitle}</div>`;
             html += '<ul class="pair-list timeframe-list">';
             groups.month.forEach(item => {
                 const isActive = item.value === currentTimeframe ? 'selected' : '';
+                const itemText = hasTranslateFunc ? window.t(item.text) : item.text;
                 html += `<li class="pair-list-item timeframe-item ${isActive}" data-timeframe="${item.value}">
                     <span class="timeframe-icon">${item.icon}</span>
                     <div class="pair-info">
-                        <span class="timeframe-text">${item.text}</span>
+                        <span class="timeframe-text">${itemText}</span>
                     </div>
                 </li>`;
             });
